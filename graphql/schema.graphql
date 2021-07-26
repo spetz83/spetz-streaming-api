@@ -7,12 +7,65 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
     users: [User!]! @paginate(defaultCount: 10)
     user(id: ID @eq): User @find
+    platforms: [Platform!]! @all
+    platform(id: Int! @eq): Platform @find
+    shows: [Show!]! @all
+    show(id: Int! @eq): Show @find
+    movies: [Movie!]! @all
+    movie(id: Int! @eq): Movie @find
+    documentaries: [Documentary!]! @all
+    documentary(id: Int! @eq): Documentary @find
+    podcasts: [Podcast!]! @all
+    podcast(id: Int! @eq): Podcast @find
 }
 
 type User {
     id: ID!
     name: String!
     email: String!
+    platforms: [Platform!]! @hasMany
+    shows: [Show!]! @hasMany
+    movies: [Movie!]! @hasMany
+    documentaries: [Documentary!]! @hasMany
+    podcasts: [Podcast!]! @hasMany
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+type Platform {
+    id: ID!
+    title: String!
+    url: String!
+    icon_url: String!
+    creator: User! @belongsTo
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Show {
+    id: ID!
+    title: String!
+    creator: User! @belongsTo
+    platforms: [Platform!]! @hasMany
+}
+
+type Movie {
+    id: ID!
+    title: String!
+    creator: User! @belongsTo
+    platforms: [Platform!]! @hasMany
+}
+
+type Documentary {
+    id: ID!
+    title: String!
+    creator: User! @belongsTo
+    platforms: [Platform!]! @hasMany
+}
+
+type Podcast {
+    id: ID!
+    title: String!
+    creator: User! @belongsTo
+    platforms: [Platform!]! @hasMany
 }
